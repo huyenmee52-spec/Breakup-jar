@@ -826,9 +826,22 @@ async function loadUserEntries(userId) {
   });
 }
 
-
+async function createUser1() {
+  await setDoc(
+    doc(db, "users", "user1"),
+    {
+      name: "user1",
+      bottleCount: 0
+    },
+    {
+      merge: true
+    }
+  );
+}
 async function loadData() {
   try {
+    await createUser1();
+
     data.me = await loadUserEntries(USER_ID);
 
     try {
