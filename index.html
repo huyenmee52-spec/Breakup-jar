@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5e9e8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Breakup Jar — Chiếc lọ của em</title>
+<style>
+:root{
+ --bg:#f7efed;--paper:#fffaf3;--ink:#332b2d;--muted:#8b7d80;
+ --rose:#a96976;--rose2:#d59da6;--line:#eadbdd;--card:#ffffff9c;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;background:
+ radial-gradient(circle at 15% 5%,#fff 0 18%,transparent 40%),
+ radial-gradient(circle at 90% 25%,#f0d9dc 0 10%,transparent 34%),
+ linear-gradient(180deg,#f9f3f1,#eee1e2);overflow-x:hidden}
+button,input,textarea,select{font:inherit}
+button{border:0;cursor:pointer}
+.app{max-width:760px;margin:auto;padding:18px 18px 44px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.brand{font-weight:800;letter-spacing:-.3px}.gear{width:42px;height:42px;border-radius:14px;background:#fff9;box-shadow:0 5px 18px #0000000c;font-size:20px}
+.hero{text-align:center;padding:12px 0 4px}
+.hero .eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700}
+h1{font-size:34px;line-height:1.05;margin:7px 0 8px;letter-spacing:-1.4px}
+.subtitle{color:var(--muted);line-height:1.5;margin:0 auto;max-width:450px}
+.jar-stage{height:390px;position:relative;margin:4px auto 0;max-width:360px}
+.glow{position:absolute;inset:45px 40px 25px;background:#d8aab255;filter:blur(34px);border-radius:50%}
+.jar{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:238px;height:300px;border:3px solid #8d777b55;border-top-color:#8d777b77;border-radius:30px 30px 48px 48px;
+ background:linear-gradient(105deg,#ffffff9c 0%,#ffffff35 25%,#d9e7e755 60%,#fff7 100%);
+ box-shadow:inset 12px 0 20px #fff9,inset -10px 0 18px #8b72721b,0 25px 40px #5a45491c;overflow:hidden;z-index:2}
+.jar:after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px #fff8;pointer-events:none}
+.neck{position:absolute;top:-18px;left:32px;right:32px;height:38px;border:3px solid #8d777b66;border-radius:12px;background:#b18d9290;z-index:3;box-shadow:0 7px 10px #0001}
+.paper-fill{position:absolute;left:10px;right:10px;bottom:7px;height:0;background:linear-gradient(150deg,#e8c3a7,#d6a0a9 48%,#b77b88);border-radius:20px 20px 38px 38px;transition:height .8s cubic-bezier(.2,.8,.2,1);opacity:.58}
+.paper-stack{position:absolute;inset:30px 12px 8px;display:flex;align-items:flex-end;justify-content:center;align-content:flex-end;flex-wrap:wrap;gap:5px;padding:15px 10px 0;overflow:hidden;z-index:4}
+.note-mini{width:23px;height:18px;border-radius:3px 3px 5px 3px;background:var(--paper);box-shadow:0 2px 5px #46343833;transform:rotate(var(--r));animation:drop .5s ease both}
+@keyframes drop{from{opacity:0;transform:translateY(-35px) rotate(var(--r))}to{opacity:1;transform:translateY(0) rotate(var(--r))}}
+.jar-shine{position:absolute;left:24px;top:45px;width:22px;height:185px;border-radius:50%;background:#fff7;filter:blur(2px);z-index:5}
+.fill-label{font-weight:800;font-size:18px;margin-top:-5px}.fill-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.cta{display:flex;gap:10px;margin:20px 0 16px}.primary{flex:1;background:linear-gradient(135deg,#b77a86,#945a68);color:white;padding:16px;border-radius:17px;font-weight:800;box-shadow:0 12px 24px #945a6833}.secondary{width:52px;border-radius:17px;background:#fff;color:var(--ink);box-shadow:0 7px 18px #0000000b;font-size:20px}
+.card{background:var(--card);border:1px solid #fff;backdrop-filter:blur(18px);border-radius:22px;padding:17px;margin-top:13px;box-shadow:0 12px 35px #4c363a0b}
+.card-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}.card-title h2{font-size:17px;margin:0}.tiny{font-size:12px;color:var(--muted)}
+.entry{position:relative;background:#fff9;border:1px solid #fff;border-radius:16px;padding:13px 13px 13px 15px;margin:9px 0;overflow:hidden}
+.entry:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--m,#b77a86)}
+.entry-head{display:flex;justify-content:space-between;gap:10px}.entry strong{font-size:14px}.entry small{color:var(--muted);white-space:nowrap}.entry p{margin:7px 0 0;line-height:1.45;font-size:14px}.tag{display:inline-block;margin-top:9px;padding:5px 8px;border-radius:99px;background:#f0e2e3;color:#76555b;font-size:11px;font-weight:700}
+.empty{text-align:center;color:var(--muted);padding:22px 8px;line-height:1.6}
+.status{line-height:1.5}.status strong{font-size:15px}
+.full{display:none;background:linear-gradient(135deg,#fff8f8,#f0d9dc);border:1px solid #fff;border-radius:18px;padding:14px;margin-top:12px;color:#704b53;font-weight:700;line-height:1.5}.full.show{display:block}
+.modal{position:fixed;inset:0;background:#31272b73;backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center;z-index:20;padding:10px}.modal.show{display:flex}
+.sheet{width:min(680px,100%);max-height:92vh;overflow:auto;background:#fffaf8;border-radius:26px 26px 16px 16px;padding:21px;box-shadow:0 -15px 45px #0002}.sheet h2{margin:0 0 4px;font-size:22px}.sheet .hint{color:var(--muted);font-size:13px;margin:0 0 14px}
+label{display:block;font-size:12px;font-weight:800;color:#77696d;margin:12px 0 6px}textarea,input,select{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:13px;outline:none;color:var(--ink)}textarea{min-height:120px;resize:vertical}
+.moods{display:flex;gap:7px;flex-wrap:wrap}.mood{padding:9px 11px;border-radius:99px;background:#f3e9e9;color:#6f5a5f;font-size:12px;font-weight:700}.mood.active{background:#b77a86;color:#fff}
+.sheet-actions{display:flex;gap:9px;margin-top:17px}.sheet-actions button{flex:1;padding:14px;border-radius:15px;font-weight:800}.cancel{background:#eee6e6}.save{background:#a96976;color:#fff}
+.setting-row{display:flex;gap:10px;align-items:center}.setting-row input{flex:1}.danger{background:#fff0f1;color:#9b505b;padding:13px;border-radius:14px;font-weight:800;width:100%;margin-top:9px}
+.search{margin-bottom:9px}
+.toolbar{display:flex;gap:8px}.toolbar button{background:#f1e8e8;border-radius:12px;padding:9px 11px;font-size:12px;font-weight:700;color:#6f5a5f}
+.quote{font-family:Georgia,serif;font-style:italic;color:#6f5a5f;text-align:center;margin:22px auto 4px;max-width:500px;line-height:1.6}
+.footer{text-align:center;color:#a39295;font-size:11px;margin-top:25px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><div class="brand">🫙 Breakup Jar</div><button class="gear" onclick="openSettings()">⚙️</button></div>
+  <section class="hero">
+    <div class="eyebrow" id="eyebrow">CHIẾC LỌ CỦA EM</div>
+    <h1 id="title">Những điều làm em buồn</h1>
+    <p class="subtitle" id="subtitle">Mỗi lần em buồn, một mẩu giấy. Đến khi chiếc lọ đầy, em sẽ biết giới hạn của mình.</p>
+  </section>
+
+  <div class="jar-stage">
+    <div class="glow"></div>
+    <div class="jar">
+      <div class="neck"></div><div class="paper-fill" id="paperFill"></div>
+      <div class="paper-stack" id="paperStack"></div><div class="jar-shine"></div>
+    </div>
+  </div>
+  <div class="fill-label" id="fillLabel">Chiếc lọ còn trống</div>
+  <div class="fill-sub" id="fillSub">0 mẩu giấy</div>
+
+  <div class="cta"><button class="primary" onclick="openAdd()">＋ Bỏ một mẩu giấy vào lọ</button><button class="secondary" onclick="exportData()" title="Sao lưu">↥</button></div>
+
+  <div class="card">
+    <div class="card-title"><h2>Trạng thái chiếc lọ</h2><span class="tiny" id="startInfo"></span></div>
+    <div class="status" id="status">Chưa có gì trong lọ. Hôm nay là ngày đầu tiên của chiếc lọ.</div>
+    <div class="full" id="fullMessage">🫙 <strong>Chiếc lọ đã đầy.</strong><br>Em không cần chứng minh thêm rằng mình đã cố gắng đủ nhiều. Hãy chọn điều tốt nhất cho mình.</div>
+  </div>
+
+  <div class="card" id="history">
+    <div class="card-title"><h2>Những mẩu giấy</h2><span class="tiny" id="total"></span></div>
+    <input class="search" id="search" placeholder="Tìm lại một chuyện..." oninput="renderEntries()">
+    <div class="toolbar"><button onclick="filterMood('all')">Tất cả</button><button onclick="filterMood('Buồn')">Buồn</button><button onclick="filterMood('Tổn thương')">Tổn thương</button><button onclick="filterMood('Tức giận')">Tức giận</button></div>
+    <div id="entries"></div>
+  </div>
+
+  <div class="quote">“Em không ghi lại để trả thù. Em ghi lại để không quên mình đã cảm thấy thế nào.”</div>
+  <div class="footer">Dữ liệu được lưu trên thiết bị của em · Breakup Jar</div>
+</div>
+
+<div class="modal" id="addModal">
+ <div class="sheet">
+  <h2>📝 Một mẩu giấy mới</h2><p class="hint">Viết điều em muốn nhớ. Không cần viết cho ai đọc.</p>
+  <label>Điều gì đã xảy ra?</label><textarea id="reason" placeholder="Ví dụ: Hôm nay anh ấy... và điều đó khiến em..."></textarea>
+  <label>Cảm xúc</label>
+  <div class="moods" id="moods">
+   <button class="mood active" data-m="Buồn" onclick="pickMood(this)">🥺 Buồn</button>
+   <button class="mood" data-m="Tổn thương" onclick="pickMood(this)">💔 Tổn thương</button>
+   <button class="mood" data-m="Tức giận" onclick="pickMood(this)">😤 Tức giận</button>
+   <button class="mood" data-m="Thất vọng" onclick="pickMood(this)">😞 Thất vọng</button>
+   <button class="mood" data-m="Cô đơn" onclick="pickMood(this)">🥀 Cô đơn</button>
+   <button class="mood" data-m="Khác" onclick="pickMood(this)">🤍 Khác</button>
+  </div>
+  <label>Ngày</label><input id="date" type="date">
+  <div class="sheet-actions"><button class="cancel" onclick="closeModal()">Hủy</button><button class="save" onclick="saveEntry()">Vo lại & bỏ vào lọ 🫙</button></div>
+ </div>
+</div>
+
+<div class="modal" id="settingsModal">
+ <div class="sheet">
+  <h2>⚙️ Chiếc lọ của em</h2><p class="hint">Tùy chỉnh cách chiếc lọ kể câu chuyện của em.</p>
+  <label>Tên người/nhóm mà chiếc lọ này dành cho</label><input id="personName" placeholder="Ví dụ: Anh ấy, Chúng mình...">
+  <label>Tiêu đề chiếc lọ</label><input id="jarTitle" placeholder="Những điều làm em buồn">
+  <label>Ngày bắt đầu</label><input id="startDate" type="date">
+  <label>Dữ liệu</label>
+  <button class="danger" onclick="importData()">↥ Khôi phục từ bản sao lưu</button>
+  <button class="danger" onclick="clearAll()">🗑️ Xóa toàn bộ mẩu giấy</button>
+  <div class="sheet-actions"><button class="cancel" onclick="closeSettings()">Đóng</button><button class="save" onclick="saveSettings()">Lưu thay đổi</button></div>
+ </div>
+</div>
+
+<script>
+const KEY="breakup-jar-deluxe-v1";
+let data=JSON.parse(localStorage.getItem(KEY)||'null')||{entries:[],settings:{person:"",title:"Những điều làm em buồn",start:new Date().toISOString().slice(0,10)}};
+let selectedMood="Buồn", moodFilter="all";
+const $=id=>document.getElementById(id);
+$("date").valueAsDate=new Date();
+
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function openAdd(){$("addModal").classList.add("show");$("reason").focus()}
+function closeModal(){$("addModal").classList.remove("show");$("reason").value=""}
+function pickMood(btn){document.querySelectorAll(".mood").forEach(x=>x.classList.remove("active"));btn.classList.add("active");selectedMood=btn.dataset.m}
+function saveEntry(){
+ const reason=$("reason").value.trim(); if(!reason){alert("Bồ viết một chút vào mẩu giấy trước nha 🥺");return}
+ data.entries.push({id:Date.now(),reason,date:$("date").value||new Date().toISOString().slice(0,10),mood:selectedMood});
+ save();closeModal();render();
+}
+function openSettings(){$("personName").value=data.settings.person;$("jarTitle").value=data.settings.title;$("startDate").value=data.settings.start;$("settingsModal").classList.add("show")}
+function closeSettings(){$("settingsModal").classList.remove("show")}
+function saveSettings(){data.settings.person=$("personName").value.trim();data.settings.title=$("jarTitle").value.trim()||"Những điều làm em buồn";data.settings.start=$("startDate").value||data.settings.start;save();closeSettings();render()}
+function filterMood(m){moodFilter=m;renderEntries()}
+function render(){
+ $("title").textContent=data.settings.title;
+ $("eyebrow").textContent=data.settings.person?`CHIẾC LỌ DÀNH CHO ${data.settings.person.toUpperCase()}`:"CHIẾC LỌ CỦA EM";
+ const n=data.entries.length, CAP=42, pct=Math.min(100,n/CAP*100);
+ $("paperFill").style.height=pct+"%";
+ $("fillLabel").textContent=pct>=100?"Chiếc lọ đã đầy":pct===0?"Chiếc lọ còn trống":pct<35?"Lọ mới bắt đầu đầy lên":pct<70?"Chiếc lọ đang đầy dần":"Chiếc lọ gần đầy rồi";
+ $("fillSub").textContent=`${n} mẩu giấy`;
+ $("total").textContent=n?`${n} mẩu`:"Chưa có mẩu nào";
+ $("startInfo").textContent="Từ "+fmt(data.settings.start);
+ $("status").innerHTML=n===0?"Chưa có gì trong lọ. Hôm nay là ngày đầu tiên của chiếc lọ.":`Em đã giữ lại <strong>${n} lần</strong> mình cảm thấy không ổn. Những điều này là để em nhớ cảm xúc của chính mình.`;
+ $("fullMessage").classList.toggle("show",pct>=100);
+ renderJar();renderEntries();
+}
+function renderJar(){
+ const stack=$("paperStack");stack.innerHTML="";
+ data.entries.forEach((e,i)=>{const p=document.createElement("div");p.className="note-mini";p.style.setProperty("--r",(Math.random()*34-17)+"deg");p.style.background=["#fffaf3","#f7e7d8","#f4dfe2","#fff3cf"][i%4];stack.appendChild(p)});
+}
+function renderEntries(){
+ const q=$("search").value.toLowerCase();
+ let arr=data.entries.slice().reverse().filter(e=>(moodFilter==="all"||e.mood===moodFilter)&&(!q||e.reason.toLowerCase().includes(q)||e.mood.toLowerCase().includes(q)));
+ const box=$("entries");
+ if(!arr.length){box.innerHTML='<div class="empty">Không tìm thấy mẩu giấy nào.<br>Nhưng không sao — chiếc lọ vẫn ở đây. 🫙</div>';return}
+ box.innerHTML=arr.map(e=>`<div class="entry"><div class="entry-head"><strong>${emoji(e.mood)} ${esc(e.mood)}</strong><small>${fmt(e.date)}</small></div><p>${esc(e.reason).replace(/\n/g,"<br>")}</p><span class="tag">mẩu giấy</span></div>`).join("");
+}
+function emoji(m){return {Buồn:"🥺","Tổn thương":"💔","Tức giận":"😤","Thất vọng":"😞","Cô đơn":"🥀","Khác":"🤍"}[m]||"📝"}
+function fmt(d){return new Date(d+"T00:00:00").toLocaleDateString("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric"})}
+function esc(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function exportData(){
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="breakup-jar-backup.json";a.click();URL.revokeObjectURL(url)
+}
+function importData(){
+ const i=document.createElement("input");i.type="file";i.accept=".json,application/json";i.onchange=()=>{const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!x.entries||!x.settings)throw 0;data=x;save();closeSettings();render();alert("Đã khôi phục chiếc lọ 🫙")}catch{alert("File sao lưu không hợp lệ.")}};r.readAsText(f)};i.click()
+}
+function clearAll(){if(confirm("Xóa tất cả mẩu giấy trong chiếc lọ? Không thể hoàn tác nếu chưa sao lưu.")){data.entries=[];save();render();closeSettings()}}
+render();
+</script>
+</body>
+</html>
