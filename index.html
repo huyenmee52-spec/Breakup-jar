@@ -689,326 +689,96 @@ textarea {
     </div>
   </div>
 </div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  addDoc,
+  setDoc,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
+/* =========================
+   FIREBASE
+========================= */
 
-<script>
-"use strict";
+const firebaseConfig = {
+  apiKey: "AIzaSyA6MWlC0e1fbkt-O6ZmgpT4a2hiOKWNOd0",
+  authDomain: "our-mood-bottle.firebaseapp.com",
+  projectId: "our-mood-bottle",
+  storageBucket: "our-mood-bottle.firebasestorage.app",
+  messagingSenderId: "263322975109",
+  appId: "1:263322975109:web:6f44ac25256337231de2ec",
+  measurementId: "G-SKKBT5XVCT"
+};
 
-var STORAGE_KEY = "our-mood-bottle-clean-v1";
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
-var defaultData = {
+/*
+  Tạm thời app dùng user1.
+  Sau khi Firebase Authentication chạy ổn,
+  mình sẽ đổi sang tài khoản thật của từng người.
+*/
+const USER_ID = "user1";
+const OTHER_USER_ID = "user2";
+const ROOM_ID = "LOVE-2026";
+
+let data = {
   me: [],
   other: [],
   settings: {
     me: "Người 1",
     other: "Người 2",
-    room: "LOVE-2026"
+    room: ROOM_ID
   }
 };
 
-var data;
+let selectedMood = "Buồn";
+let firebaseReady = false;
 
-try {
-  data = JSON.parse(localStorage.getItem(STORAGE_KEY));
-} catch (error) {
-  data = null;
+
+/* =========================
+   HELPERS
+========================= */
+
+function $(id) {
+  return document.getElementById(id);
 }
 
-if (!data || !data.me || !data.other || !data.settings) {
-  data = defaultData;
+function today() {
+  return new Date().toISOString().slice(0, 10);
 }
-
-var selectedMood = "Buồn";
-
-document.getElementById("noteDate").value =
-  new Date().toISOString().slice(0, 10);
-
-
-function saveData() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
-
-
-function openAdd() {
-  document.getElementById("addModal").classList.add("show");
-  setTimeout(function () {
-    document.getElementById("reason").focus();
-  }, 100);
-}
-
-
-function closeModal(id) {
-  document.getElementById(id).classList.remove("show");
-}
-
-
-function pickMood(button) {
-  var buttons = document.querySelectorAll(".mood");
-
-  buttons.forEach(function (item) {
-    item.classList.remove("active");
-  });
-
-  button.classList.add("active");
-  selectedMood = button.getAttribute("data-mood");
-}
-
-
-function saveEntry() {
-  var text = document.getElementById("reason").value.trim();
-
-  if (!text) {
-    alert("Viết một chút vào mẩu giấy trước nha 🥺");
-    return;
-  }
-
-  data.me.push({
-    id: Date.now(),
-    text: text,
-    mood: selectedMood,
-    date: document.getElementById("noteDate").value
-  });
-
-  saveData();
-
-  document.getElementById("reason").value = "";
-  closeModal("addModal");
-
-  render();
-}
-
-
-function openSettings() {
-  document.getElementById("myNameInput").value = data.settings.me;
-  document.getElementById("otherNameInput").value = data.settings.other;
-  document.getElementById("roomInput").value = data.settings.room;
-
-  document.getElementById("settingsModal").classList.add("show");
-}
-
-
-function saveSettings() {
-  data.settings.me =
-    document.getElementById("myNameInput").value.trim() || "Người 1";
-
-  data.settings.other =
-    document.getElementById("otherNameInput").value.trim() || "Người 2";
-
-  data.settings.room =
-    document.getElementById("roomInput").value.trim() || "LOVE-2026";
-
-  saveData();
-  closeModal("settingsModal");
-  render();
-}
-
-
-function clearMine() {
-  if (!confirm("Xóa toàn bộ mẩu giấy của bạn?")) {
-    return;
-  }
-
-  data.me = [];
-  saveData();
-  closeModal("settingsModal");
-  render();
-}
-
-
-function render() {
-  var mine = data.me.length;
-  var other = data.other.length;
-  var total = mine + other;
-
-  /*
-    Chiếc lọ không có giới hạn cố định.
-    Khi có nhiều mẩu hơn, mức đầy sẽ tiến dần tới 100%.
-  */
-  var visualCapacity = Math.max(10, total);
-  var percent = Math.min(100, (total / visualCapacity) * 55);
-
-  if (total >= 20) {
-    percent = Math.min(100, 55 + ((total - 20) / 20) * 45);
-  }
-
-  document.getElementById("jarFill").style.height = percent + "%";
-
-  if (total === 0) {
-    document.getElementById("fillLabel").textContent =
-      "Chiếc lọ còn trống";
-  } else if (percent >= 100) {
-    document.getElementById("fillLabel").textContent =
-      "Chiếc lọ đã đầy";
-  } else if (percent >= 75) {
-    document.getElementById("fillLabel").textContent =
-      "Chiếc lọ gần đầy rồi";
-  } else if (percent >= 45) {
-    document.getElementById("fillLabel").textContent =
-      "Chiếc lọ đang đầy dần";
-  } else {
-    document.getElementById("fillLabel").textContent =
-      "Lọ mới bắt đầu đầy lên";
-  }
-
-  document.getElementById("fillSub").textContent =
-    total + " mẩu giấy";
-
-  document.getElementById("myNameLabel").textContent =
-    data.settings.me;
-
-  document.getElementById("otherNameLabel").textContent =
-    data.settings.other;
-
-  document.getElementById("myCount").textContent =
-    mine + " mẩu";
-
-  document.getElementById("otherCount").textContent =
-    other + " mẩu";
-
-  document.getElementById("roomLabel").textContent =
-    data.settings.room;
-
-  var myPercent = Math.min(100, mine * 10);
-  var otherPercent = Math.min(100, other * 10);
-
-  document.getElementById("myBar").style.width =
-    myPercent + "%";
-
-  document.getElementById("otherBar").style.width =
-    otherPercent + "%";
-
-  document.getElementById("status").innerHTML =
-    total === 0
-      ? "Chưa có gì trong lọ. Đây là nơi hai người có thể nhìn thấy tiến độ."
-      : "Chiếc lọ đang giữ <strong>" +
-        total +
-        " mẩu giấy</strong>. Hai người nhìn thấy tiến độ, còn nội dung riêng tư vẫn được bảo vệ.";
-
-  document.getElementById("fullMessage").classList.toggle(
-    "show",
-    percent >= 100
-  );
-
-  document.getElementById("total").textContent =
-    mine + " mẩu";
-
-  renderJar();
-  renderEntries();
-}
-
-
-function renderJar() {
-  var box = document.getElementById("jarPapers");
-  box.innerHTML = "";
-
-  var total = data.me.length + data.other.length;
-  var visible = Math.min(total, 60);
-
-  for (var i = 0; i < visible; i++) {
-    var paper = document.createElement("div");
-    paper.className = "paper";
-    paper.style.transform =
-      "rotate(" + ((i * 17) % 30 - 15) + "deg)";
-
-    if (i % 4 === 1) {
-      paper.style.background = "#f7e7d8";
-    }
-
-    if (i % 4 === 2) {
-      paper.style.background = "#f4dfe2";
-    }
-
-    if (i % 4 === 3) {
-      paper.style.background = "#fff3cf";
-    }
-
-    box.appendChild(paper);
-  }
-}
-
-
-function renderEntries() {
-  var query =
-    document.getElementById("search").value
-      .trim()
-      .toLowerCase();
-
-  var entries = data.me
-    .slice()
-    .reverse()
-    .filter(function (entry) {
-      return (
-        !query ||
-        entry.text.toLowerCase().indexOf(query) !== -1 ||
-        entry.mood.toLowerCase().indexOf(query) !== -1
-      );
-    });
-
-  var box = document.getElementById("entries");
-
-  if (!entries.length) {
-    box.innerHTML =
-      '<div class="tiny" style="padding:20px 4px;text-align:center;">Chưa có mẩu giấy nào. 🫙</div>';
-    return;
-  }
-
-  box.innerHTML = entries
-    .map(function (entry) {
-      return (
-        '<div class="entry">' +
-          '<div class="entry-head">' +
-            "<strong>" +
-              moodEmoji(entry.mood) +
-              " " +
-              escapeHtml(entry.mood) +
-            "</strong>" +
-            "<small>" +
-              formatDate(entry.date) +
-            "</small>" +
-          "</div>" +
-          "<p>" +
-            escapeHtml(entry.text).replace(/\n/g, "<br>") +
-          "</p>" +
-        "</div>"
-      );
-    })
-    .join("");
-}
-
-
-function moodEmoji(mood) {
-  var icons = {
-    "Buồn": "🥺",
-    "Tổn thương": "💔",
-    "Tức giận": "😤",
-    "Thất vọng": "😞",
-    "Cô đơn": "🥀",
-    "Khác": "🤍"
-  };
-
-  return icons[mood] || "📝";
-}
-
 
 function formatDate(date) {
-  if (!date) {
-    return "";
-  }
+  if (!date) return "";
 
-  return new Date(date + "T00:00:00")
-    .toLocaleDateString("vi-VN", {
+  return new Date(date + "T00:00:00").toLocaleDateString(
+    "vi-VN",
+    {
       day: "2-digit",
       month: "2-digit",
       year: "numeric"
-    });
+    }
+  );
 }
-
 
 function escapeHtml(text) {
   return String(text).replace(
     /[&<>"']/g,
     function (character) {
-      var map = {
+      const map = {
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
@@ -1021,47 +791,628 @@ function escapeHtml(text) {
   );
 }
 
+function moodEmoji(mood) {
+  const icons = {
+    "Buồn": "🥺",
+    "Tổn thương": "💔",
+    "Tức giận": "😤",
+    "Thất vọng": "😞",
+    "Cô đơn": "🥀",
+    "Khác": "🤍"
+  };
+
+  return icons[mood] || "📝";
+}
+
+
+/* =========================
+   FIRESTORE
+========================= */
+
+async function loadUserEntries(userId) {
+  const ref = collection(
+    db,
+    "users",
+    userId,
+    "entries"
+  );
+
+  const snapshot = await getDocs(ref);
+
+  return snapshot.docs.map(function (item) {
+    return {
+      id: item.id,
+      ...item.data()
+    };
+  });
+}
+
+
+async function loadData() {
+  try {
+    data.me = await loadUserEntries(USER_ID);
+
+    try {
+      data.other = await loadUserEntries(OTHER_USER_ID);
+    } catch (error) {
+      console.log("Chưa thể đọc entries của user2:", error);
+      data.other = [];
+    }
+
+    const userRef = doc(db, "users", USER_ID);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      const user = userSnap.data();
+
+      data.settings.me =
+        user.name || "Người 1";
+    }
+
+    const otherRef = doc(db, "users", OTHER_USER_ID);
+    const otherSnap = await getDoc(otherRef);
+
+    if (otherSnap.exists()) {
+      const other = otherSnap.data();
+
+      data.settings.other =
+        other.name || "Người 2";
+    }
+
+    firebaseReady = true;
+
+    render();
+
+    console.log("Firebase Firestore đã kết nối.");
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "Firebase chưa đọc được dữ liệu.\n\n" +
+      "Có thể Firestore Rules vẫn đang khóa dữ liệu."
+    );
+  }
+}
+
+
+async function saveEntry() {
+
+  const textElement = $("reason");
+
+  if (!textElement) {
+    alert("Không tìm thấy ô nhập mẩu giấy.");
+    return;
+  }
+
+  const text = textElement.value.trim();
+
+  if (!text) {
+    alert("Viết một chút vào mẩu giấy trước nha 🥺");
+    return;
+  }
+
+  if (!firebaseReady) {
+    alert(
+      "Firebase chưa sẵn sàng. " +
+      "Hãy kiểm tra kết nối trước nha."
+    );
+    return;
+  }
+
+  const dateElement = $("noteDate");
+
+  const date =
+    dateElement && dateElement.value
+      ? dateElement.value
+      : today();
+
+  try {
+
+    const ref = collection(
+      db,
+      "users",
+      USER_ID,
+      "entries"
+    );
+
+    await addDoc(ref, {
+      text: text,
+      mood: selectedMood,
+      date: date,
+      createdAt: Date.now()
+    });
+
+    textElement.value = "";
+
+    closeModal("addModal");
+
+    await loadData();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "Không lưu được mẩu giấy.\n\n" +
+      "Firebase đang chặn quyền ghi."
+    );
+  }
+}
+
+
+/* =========================
+   UI
+========================= */
+
+function openAdd() {
+
+  const modal = $("addModal");
+
+  if (modal) {
+    modal.classList.add("show");
+  }
+
+  setTimeout(function () {
+
+    const reason = $("reason");
+
+    if (reason) {
+      reason.focus();
+    }
+
+  }, 100);
+}
+
+
+function closeModal(id) {
+
+  const modal = $(id);
+
+  if (modal) {
+    modal.classList.remove("show");
+  }
+}
+
+
+function pickMood(button) {
+
+  document
+    .querySelectorAll(".mood")
+    .forEach(function (item) {
+      item.classList.remove("active");
+    });
+
+  button.classList.add("active");
+
+  selectedMood =
+    button.getAttribute("data-mood") ||
+    button.getAttribute("data-m");
+}
+
+
+function openSettings() {
+
+  const myName = $("myNameInput");
+  const otherName = $("otherNameInput");
+  const room = $("roomInput");
+
+  if (myName) {
+    myName.value = data.settings.me;
+  }
+
+  if (otherName) {
+    otherName.value = data.settings.other;
+  }
+
+  if (room) {
+    room.value = data.settings.room;
+  }
+
+  const modal = $("settingsModal");
+
+  if (modal) {
+    modal.classList.add("show");
+  }
+}
+
+
+async function saveSettings() {
+
+  const myName =
+    $("myNameInput")?.value.trim() ||
+    "Người 1";
+
+  const otherName =
+    $("otherNameInput")?.value.trim() ||
+    "Người 2";
+
+  data.settings.me = myName;
+  data.settings.other = otherName;
+
+  try {
+
+    await setDoc(
+      doc(db, "users", USER_ID),
+      {
+        name: myName,
+        bottleCount: data.me.length
+      },
+      {
+        merge: true
+      }
+    );
+
+    closeModal("settingsModal");
+
+    render();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "Không lưu được cài đặt vì Firebase Rules đang khóa."
+    );
+  }
+}
+
+
+function clearMine() {
+
+  alert(
+    "Tạm thời chưa bật xóa mẩu giấy trên Firebase.\n" +
+    "Mình sẽ thêm chức năng này sau khi phần quyền riêng tư hoàn tất."
+  );
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
+function render() {
+
+  const mine = data.me.length;
+  const other = data.other.length;
+  const total = mine + other;
+
+  let percent = 0;
+
+  if (total > 0) {
+    percent = Math.min(
+      100,
+      Math.max(10, total * 5)
+    );
+  }
+
+  const jarFill = $("jarFill");
+
+  if (jarFill) {
+    jarFill.style.height =
+      percent + "%";
+  }
+
+  const fillLabel = $("fillLabel");
+
+  if (fillLabel) {
+
+    if (total === 0) {
+      fillLabel.textContent =
+        "Chiếc lọ còn trống";
+
+    } else if (percent >= 100) {
+      fillLabel.textContent =
+        "Chiếc lọ đã đầy";
+
+    } else if (percent >= 75) {
+      fillLabel.textContent =
+        "Chiếc lọ gần đầy rồi";
+
+    } else if (percent >= 45) {
+      fillLabel.textContent =
+        "Chiếc lọ đang đầy dần";
+
+    } else {
+      fillLabel.textContent =
+        "Lọ mới bắt đầu đầy lên";
+    }
+  }
+
+  const fillSub = $("fillSub");
+
+  if (fillSub) {
+    fillSub.textContent =
+      total + " mẩu giấy";
+  }
+
+  const myNameLabel = $("myNameLabel");
+
+  if (myNameLabel) {
+    myNameLabel.textContent =
+      data.settings.me;
+  }
+
+  const otherNameLabel = $("otherNameLabel");
+
+  if (otherNameLabel) {
+    otherNameLabel.textContent =
+      data.settings.other;
+  }
+
+  const myCount = $("myCount");
+
+  if (myCount) {
+    myCount.textContent =
+      mine + " mẩu";
+  }
+
+  const otherCount = $("otherCount");
+
+  if (otherCount) {
+    otherCount.textContent =
+      other + " mẩu";
+  }
+
+  const roomLabel = $("roomLabel");
+
+  if (roomLabel) {
+    roomLabel.textContent =
+      data.settings.room;
+  }
+
+  const myBar = $("myBar");
+
+  if (myBar) {
+    myBar.style.width =
+      Math.min(100, mine * 10) + "%";
+  }
+
+  const otherBar = $("otherBar");
+
+  if (otherBar) {
+    otherBar.style.width =
+      Math.min(100, other * 10) + "%";
+  }
+
+  const status = $("status");
+
+  if (status) {
+
+    status.innerHTML =
+      total === 0
+        ? "Chưa có gì trong lọ. Đây là nơi hai người có thể nhìn thấy tiến độ."
+        : "Chiếc lọ đang giữ <strong>" +
+          total +
+          " mẩu giấy</strong>. Hai người nhìn thấy tiến độ, còn nội dung riêng tư vẫn được bảo vệ.";
+  }
+
+  const fullMessage = $("fullMessage");
+
+  if (fullMessage) {
+    fullMessage.classList.toggle(
+      "show",
+      percent >= 100
+    );
+  }
+
+  const totalElement = $("total");
+
+  if (totalElement) {
+    totalElement.textContent =
+      mine + " mẩu";
+  }
+
+  renderJar();
+  renderEntries();
+}
+
+
+function renderJar() {
+
+  const box = $("jarPapers");
+
+  if (!box) return;
+
+  box.innerHTML = "";
+
+  const total =
+    data.me.length +
+    data.other.length;
+
+  const visible =
+    Math.min(total, 60);
+
+  for (
+    let i = 0;
+    i < visible;
+    i++
+  ) {
+
+    const paper =
+      document.createElement("div");
+
+    paper.className =
+      "paper";
+
+    paper.style.transform =
+      "rotate(" +
+      ((i * 17) % 30 - 15) +
+      "deg)";
+
+    if (i % 4 === 1) {
+      paper.style.background =
+        "#f7e7d8";
+    }
+
+    if (i % 4 === 2) {
+      paper.style.background =
+        "#f4dfe2";
+    }
+
+    if (i % 4 === 3) {
+      paper.style.background =
+        "#fff3cf";
+    }
+
+    box.appendChild(paper);
+  }
+}
+
+
+function renderEntries() {
+
+  const search =
+    $("search");
+
+  const query =
+    search
+      ? search.value.trim().toLowerCase()
+      : "";
+
+  const entries =
+    data.me
+      .slice()
+      .reverse()
+      .filter(function (entry) {
+
+        return (
+          !query ||
+          String(entry.text || "")
+            .toLowerCase()
+            .includes(query) ||
+          String(entry.mood || "")
+            .toLowerCase()
+            .includes(query)
+        );
+
+      });
+
+  const box =
+    $("entries");
+
+  if (!box) return;
+
+  if (!entries.length) {
+
+    box.innerHTML =
+      '<div class="tiny" style="padding:20px 4px;text-align:center;">Chưa có mẩu giấy nào. 🫙</div>';
+
+    return;
+  }
+
+  box.innerHTML =
+    entries
+      .map(function (entry) {
+
+        return (
+          '<div class="entry">' +
+
+            '<div class="entry-head">' +
+
+              "<strong>" +
+                moodEmoji(entry.mood) +
+                " " +
+                escapeHtml(entry.mood) +
+              "</strong>" +
+
+              "<small>" +
+                formatDate(entry.date) +
+              "</small>" +
+
+            "</div>" +
+
+            "<p>" +
+              escapeHtml(entry.text)
+                .replace(/\n/g, "<br>") +
+            "</p>" +
+
+          "</div>"
+        );
+
+      })
+      .join("");
+}
+
+
+/* =========================
+   MINI GAME
+========================= */
 
 function startGame() {
-  var questions = [
+
+  const questions = [
+
     {
-      question: "Điều quan trọng nhất khi đọc mẩu giấy riêng tư?",
+      question:
+        "Điều quan trọng nhất khi đọc mẩu giấy riêng tư?",
+
       answers: [
         "Đọc càng nhiều càng tốt",
         "Tôn trọng quyền của người viết",
         "Chụp lại để lưu"
       ],
+
       correct: 1
     },
+
     {
-      question: "Nếu người kia chưa cho phép thì sao?",
+      question:
+        "Nếu người kia chưa cho phép thì sao?",
+
       answers: [
         "Tìm cách đọc",
         "Tôn trọng và chờ được cho phép",
         "Đoán nội dung"
       ],
+
       correct: 1
     },
+
     {
-      question: "Chiếc lọ đầy nên được hiểu là gì?",
+      question:
+        "Chiếc lọ đầy nên được hiểu là gì?",
+
       answers: [
         "Một tín hiệu để hai người nhìn lại",
         "Phải chịu thêm",
         "Không có ý nghĩa"
       ],
+
       correct: 0
     }
+
   ];
 
-  var question =
-    questions[Math.floor(Math.random() * questions.length)];
+  const question =
+    questions[
+      Math.floor(
+        Math.random() *
+        questions.length
+      )
+    ];
 
-  document.getElementById("gameQuestion").textContent =
+  const questionBox =
+    $("gameQuestion");
+
+  const answersBox =
+    $("answers");
+
+  if (!questionBox || !answersBox) {
+    return;
+  }
+
+  questionBox.textContent =
     question.question;
 
-  document.getElementById("answers").innerHTML =
+  answersBox.innerHTML =
     question.answers
-      .map(function (answer, index) {
+      .map(function (
+        answer,
+        index
+      ) {
+
         return (
           '<button class="answer" onclick="answerGame(' +
           index +
@@ -1071,55 +1422,194 @@ function startGame() {
           escapeHtml(answer) +
           "</button>"
         );
+
       })
       .join("");
 
-  document.getElementById("gameModal").classList.add("show");
+  const modal =
+    $("gameModal");
+
+  if (modal) {
+    modal.classList.add("show");
+  }
 }
 
 
-function answerGame(selected, correct) {
-  var buttons =
-    document.querySelectorAll(".answer");
+function answerGame(
+  selected,
+  correct
+) {
+
+  const buttons =
+    document.querySelectorAll(
+      ".answer"
+    );
 
   if (selected === correct) {
-    buttons[selected].style.background = "#e4f0e4";
 
-    setTimeout(function () {
-      closeModal("gameModal");
-      openOtherNote();
-    }, 400);
+    buttons[selected].style.background =
+      "#e4f0e4";
+
+    setTimeout(
+      function () {
+
+        closeModal("gameModal");
+
+        openOtherNote();
+
+      },
+      400
+    );
 
   } else {
-    buttons[selected].style.background = "#f4d7d9";
 
-    alert("Chưa đúng rồi 🥺 Thử lại nha.");
+    buttons[selected].style.background =
+      "#f4d7d9";
+
+    alert(
+      "Chưa đúng rồi 🥺 Thử lại nha."
+    );
   }
 }
 
 
 function openOtherNote() {
+
+  const opened =
+    $("openedNote");
+
+  if (!opened) return;
+
   if (!data.other.length) {
-    document.getElementById("openedNote").innerHTML =
+
+    opened.innerHTML =
       '<div class="note">Người kia chưa có mẩu giấy nào để mở.</div>';
+
     return;
   }
 
-  var note = data.other[0];
+  /*
+    BẢN NÀY CHƯA cho phép đọc giấy
+    của người kia trực tiếp.
+    Đây chỉ là bước chuẩn bị cho
+    hệ thống xin quyền + mini game.
+  */
 
-  document.getElementById("openedNote").innerHTML =
+  opened.innerHTML =
     '<div class="note">' +
-      "💌 <strong>Một mẩu giấy được mở:</strong><br><br>" +
-      escapeHtml(note.text).replace(/\n/g, "<br>") +
-      "<br><br>" +
-      '<span class="tiny">' +
-        formatDate(note.date) +
-      "</span>" +
+      "🔒 <strong>Mẩu giấy đang được khóa.</strong><br><br>" +
+      "Thắng mini-game chưa đủ để đọc giấy. " +
+      "Sau bước này mình sẽ thêm cơ chế người kia cấp quyền mở." +
     "</div>";
 }
 
 
-render();
+/* =========================
+   EXPORT / IMPORT
+========================= */
+
+async function exportData() {
+
+  const backup = {
+    user: USER_ID,
+    entries: data.me,
+    settings: data.settings
+  };
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          backup,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download =
+    "our-mood-bottle-backup.json";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+
+/* =========================
+   MAKE INLINE HTML EVENTS WORK
+========================= */
+
+window.openAdd = openAdd;
+window.closeModal = closeModal;
+window.pickMood = pickMood;
+window.saveEntry = saveEntry;
+window.openSettings = openSettings;
+window.saveSettings = saveSettings;
+window.clearMine = clearMine;
+window.startGame = startGame;
+window.answerGame = answerGame;
+window.openOtherNote = openOtherNote;
+window.exportData = exportData;
+
+
+/* =========================
+   DATE
+========================= */
+
+const noteDate =
+  $("noteDate");
+
+if (noteDate) {
+  noteDate.value =
+    today();
+}
+
+
+/* =========================
+   AUTH
+========================= */
+
+onAuthStateChanged(
+  auth,
+  async function (user) {
+
+    if (!user) {
+
+      console.log(
+        "Chưa đăng nhập Firebase."
+      );
+
+      /*
+        Bản đầu tiên sẽ dùng
+        tài khoản Firebase đã tạo.
+      */
+
+      return;
+    }
+
+    console.log(
+      "Đã đăng nhập:",
+      user.uid
+    );
+
+    await loadData();
+  }
+);
 </script>
+
+
 </body>
 </html>
