@@ -1586,30 +1586,18 @@ signInAnonymously(auth)
   })
   .catch(function (error) {
     console.error("Lỗi đăng nhập Firebase:", error);
-    alert("Không đăng nhập được Firebase: " + error.message);
+    alert("Lỗi Firebase: " + error.code + "\n" + error.message);
   });
+
 onAuthStateChanged(
   auth,
   async function (user) {
-
     if (!user) {
-
-      console.log(
-        "Chưa đăng nhập Firebase."
-      );
-
-      /*
-        Bản đầu tiên sẽ dùng
-        tài khoản Firebase đã tạo.
-      */
-
+      console.log("Chưa đăng nhập Firebase.");
       return;
     }
 
-    console.log(
-      "Đã đăng nhập:",
-      user.uid
-    );
+    console.log("Đã đăng nhập:", user.uid);
 
     await loadData();
   }
