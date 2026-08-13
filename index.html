@@ -1,194 +1,1124 @@
 <!doctype html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f5e9e8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7efed">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>Our Mood Bottle</title>
+<title>Breakup Jar — Chiếc lọ của em</title>
+
 <style>
-:root{
- --bg:#f7efed;--paper:#fffaf3;--ink:#332b2d;--muted:#8b7d80;
- --rose:#a96976;--rose2:#d59da6;--line:#eadbdd;--card:#ffffffa8;
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;min-height:100vh;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;background:
-radial-gradient(circle at 15% 5%,#fff 0 18%,transparent 40%),radial-gradient(circle at 90% 25%,#f0d9dc 0 10%,transparent 34%),linear-gradient(180deg,#f9f3f1,#eee1e2);overflow-x:hidden}
-button,input,textarea{font:inherit}button{border:0;cursor:pointer}
-.app{max-width:760px;margin:auto;padding:18px 18px 44px}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.brand{font-weight:800;letter-spacing:-.3px}.gear{width:42px;height:42px;border-radius:14px;background:#fff9;box-shadow:0 5px 18px #0000000c;font-size:20px}
-.hero{text-align:center;padding:12px 0 4px}.eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700}
-h1{font-size:34px;line-height:1.05;margin:7px 0 8px;letter-spacing:-1.4px}.subtitle{color:var(--muted);line-height:1.5;margin:0 auto;max-width:480px}
-.jar-stage{height:390px;position:relative;margin:4px auto 0;max-width:360px}.glow{position:absolute;inset:45px 40px 25px;background:#d8aab255;filter:blur(34px);border-radius:50%}
-.jar{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:238px;height:300px;border:3px solid #8d777b55;border-top-color:#8d777b77;border-radius:30px 30px 48px 48px;background:linear-gradient(105deg,#ffffff9c 0%,#ffffff35 25%,#d9e7e755 60%,#fff7 100%);box-shadow:inset 12px 0 20px #fff9,inset -10px 0 18px #8b72721b,0 25px 40px #5a45491c;overflow:hidden;z-index:2}
-.jar:after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px #fff8;pointer-events:none}
-.neck{position:absolute;top:-18px;left:32px;right:32px;height:38px;border:3px solid #8d777b66;border-radius:12px;background:#b18d9290;z-index:3;box-shadow:0 7px 10px #0001}
-.paper-fill{position:absolute;left:10px;right:10px;bottom:7px;height:0;background:linear-gradient(150deg,#e8c3a7,#d6a0a9 48%,#b77b88);border-radius:20px 20px 38px 38px;transition:height .8s cubic-bezier(.2,.8,.2,1);opacity:.58}
-.paper-stack{position:absolute;inset:30px 12px 8px;display:flex;align-items:flex-end;justify-content:center;align-content:flex-end;flex-wrap:wrap;gap:5px;padding:15px 10px 0;overflow:hidden;z-index:4}
-.note-mini{width:23px;height:18px;border-radius:3px 3px 5px 3px;background:var(--paper);box-shadow:0 2px 5px #46343833;transform:rotate(var(--r));animation:drop .5s ease both}
-@keyframes drop{from{opacity:0;transform:translateY(-35px) rotate(var(--r))}to{opacity:1;transform:translateY(0) rotate(var(--r))}}
-.jar-shine{position:absolute;left:24px;top:45px;width:22px;height:185px;border-radius:50%;background:#fff7;filter:blur(2px);z-index:5}
-.fill-label{font-weight:800;font-size:18px;margin-top:-5px}.fill-sub{font-size:12px;color:var(--muted);margin-top:2px}
-.cta{display:flex;gap:10px;margin:20px 0 16px}.primary{flex:1;background:linear-gradient(135deg,#b77a86,#945a68);color:white;padding:16px;border-radius:17px;font-weight:800;box-shadow:0 12px 24px #945a6833}.secondary{width:52px;border-radius:17px;background:#fff;color:var(--ink);box-shadow:0 7px 18px #0000000b;font-size:20px}
-.card{background:var(--card);border:1px solid #fff;backdrop-filter:blur(18px);border-radius:22px;padding:17px;margin-top:13px;box-shadow:0 12px 35px #4c363a0b}
-.card-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}.card-title h2{font-size:17px;margin:0}.tiny{font-size:12px;color:var(--muted)}
-.people{display:grid;grid-template-columns:1fr 1fr;gap:10px}.person{background:#fff9;border:1px solid #fff;border-radius:17px;padding:13px}.person .avatar{font-size:24px}.person b{display:block;margin-top:4px}.bar{height:8px;border-radius:99px;background:#eadfe0;margin-top:8px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#d59da6,#a96976);border-radius:99px;width:0;transition:.5s}
-.status{line-height:1.5}.full{display:none;background:linear-gradient(135deg,#fff8f8,#f0d9dc);border:1px solid #fff;border-radius:18px;padding:14px;margin-top:12px;color:#704b53;font-weight:700;line-height:1.5}.full.show{display:block}
-.entry{position:relative;background:#fff9;border:1px solid #fff;border-radius:16px;padding:13px 13px 13px 15px;margin:9px 0;overflow:hidden}.entry:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--m,#b77a86)}.entry-head{display:flex;justify-content:space-between;gap:10px}.entry strong{font-size:14px}.entry small{color:var(--muted);white-space:nowrap}.entry p{margin:7px 0 0;line-height:1.45;font-size:14px}.tag{display:inline-block;margin-top:9px;padding:5px 8px;border-radius:99px;background:#f0e2e3;color:#76555b;font-size:11px;font-weight:700}
-.locked{background:#f5eeee;color:#806c70;border-radius:14px;padding:12px;margin-top:7px;line-height:1.45}.locked button{margin-top:8px;background:#a96976;color:#fff;border-radius:11px;padding:8px 11px;font-weight:800;font-size:12px}
-.empty{text-align:center;color:var(--muted);padding:22px 8px;line-height:1.6}.quote{font-family:Georgia,serif;font-style:italic;color:#6f5a5f;text-align:center;margin:22px auto 4px;max-width:500px;line-height:1.6}.footer{text-align:center;color:#a39295;font-size:11px;margin-top:25px}
-.modal{position:fixed;inset:0;background:#31272b73;backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center;z-index:20;padding:10px}.modal.show{display:flex}
-.sheet{width:min(680px,100%);max-height:92vh;overflow:auto;background:#fffaf8;border-radius:26px 26px 16px 16px;padding:21px;box-shadow:0 -15px 45px #0002}.sheet h2{margin:0 0 4px;font-size:22px}.hint{color:var(--muted);font-size:13px;margin:0 0 14px}
-label{display:block;font-size:12px;font-weight:800;color:#77696d;margin:12px 0 6px}textarea,input{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:13px;outline:none;color:var(--ink)}textarea{min-height:120px;resize:vertical}
-.moods{display:flex;gap:7px;flex-wrap:wrap}.mood{padding:9px 11px;border-radius:99px;background:#f3e9e9;color:#6f5a5f;font-size:12px;font-weight:700}.mood.active{background:#b77a86;color:#fff}
-.sheet-actions{display:flex;gap:9px;margin-top:17px}.sheet-actions button{flex:1;padding:14px;border-radius:15px;font-weight:800}.cancel{background:#eee6e6}.save{background:#a96976;color:#fff}.danger{background:#fff0f1;color:#9b505b;padding:13px;border-radius:14px;font-weight:800;width:100%;margin-top:9px}
-.game{background:#f5eeee;border-radius:18px;padding:14px;margin-top:10px}.game-q{font-weight:800;margin-bottom:10px}.answers{display:grid;gap:8px}.answers button{background:#fff;border:1px solid #eadbdd;border-radius:12px;padding:11px;text-align:left}.answers button.correct{background:#e7f2e7}.answers button.wrong{background:#f8dddd}.mini-note{background:#fffdf6;border:1px solid #eadbdd;border-radius:14px;padding:16px;margin-top:10px;font-family:Georgia,serif;line-height:1.6}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #f7efed;
+  color: #332b2d;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.45;
+}
+
+button, input, textarea {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+.app {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 18px 16px 40px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.icon-button {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: #ffffff;
+  font-size: 19px;
+}
+
+.hero {
+  text-align: center;
+  padding: 28px 8px 4px;
+}
+
+.eyebrow {
+  color: #907f83;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+h1 {
+  margin: 8px 0;
+  font-size: 32px;
+  line-height: 1.12;
+  letter-spacing: -0.8px;
+}
+
+.subtitle {
+  max-width: 500px;
+  margin: 0 auto;
+  color: #87777b;
+  font-size: 14px;
+}
+
+.jar-area {
+  position: relative;
+  width: 100%;
+  height: 370px;
+}
+
+.jar {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  width: 220px;
+  height: 275px;
+  transform: translateX(-50%);
+  overflow: hidden;
+  border: 3px solid rgba(120, 100, 105, 0.35);
+  border-radius: 28px 28px 45px 45px;
+  background: rgba(255,255,255,0.42);
+  box-shadow: 0 22px 45px rgba(80,50,55,0.14);
+}
+
+.jar-neck {
+  position: absolute;
+  z-index: 4;
+  top: -17px;
+  left: 30px;
+  right: 30px;
+  height: 38px;
+  border: 3px solid rgba(120,100,105,0.35);
+  border-radius: 12px;
+  background: rgba(180,150,155,0.55);
+}
+
+.jar-fill {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 7px;
+  height: 0;
+  border-radius: 20px 20px 38px 38px;
+  background: linear-gradient(145deg, #e9c7ad, #d6a1aa);
+  opacity: 0.75;
+  transition: height 0.6s ease;
+}
+
+.jar-papers {
+  position: absolute;
+  z-index: 3;
+  left: 13px;
+  right: 13px;
+  top: 45px;
+  bottom: 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  align-content: flex-end;
+  flex-wrap: wrap;
+  gap: 5px;
+  overflow: hidden;
+}
+
+.paper {
+  width: 24px;
+  height: 18px;
+  border-radius: 3px;
+  background: #fffaf3;
+  box-shadow: 0 2px 5px rgba(60,40,45,0.2);
+}
+
+.jar-shine {
+  position: absolute;
+  z-index: 5;
+  top: 45px;
+  left: 23px;
+  width: 19px;
+  height: 170px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.48);
+}
+
+.fill-label {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.fill-sub {
+  text-align: center;
+  color: #907f83;
+  font-size: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0 14px;
+}
+
+.primary {
+  flex: 1;
+  padding: 15px;
+  border-radius: 16px;
+  background: #a96976;
+  color: #fff;
+  font-weight: 800;
+}
+
+.card {
+  margin-top: 13px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.9);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.62);
+  box-shadow: 0 10px 30px rgba(70,50,55,0.07);
+}
+
+.card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.card-title h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.tiny {
+  color: #907f83;
+  font-size: 12px;
+}
+
+.people {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.person {
+  padding: 12px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.75);
+}
+
+.avatar {
+  font-size: 22px;
+}
+
+.person-name {
+  margin-top: 3px;
+  font-weight: 800;
+}
+
+.bar {
+  height: 7px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #eadfe0;
+}
+
+.bar span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: 99px;
+  background: #b77a86;
+  transition: width 0.5s ease;
+}
+
+.status {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.full {
+  display: none;
+  margin-top: 12px;
+  padding: 13px;
+  border-radius: 15px;
+  background: #f1dfe1;
+  color: #704b53;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.full.show {
+  display: block;
+}
+
+.search {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #eadbdd;
+  border-radius: 13px;
+  outline: none;
+  background: #fff;
+  color: #332b2d;
+}
+
+.entry {
+  position: relative;
+  margin-top: 9px;
+  padding: 12px 12px 12px 15px;
+  overflow: hidden;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.7);
+}
+
+.entry:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background: #b77a86;
+}
+
+.entry-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.entry small {
+  color: #907f83;
+}
+
+.entry p {
+  margin: 7px 0 0;
+  font-size: 14px;
+}
+
+.locked {
+  padding: 13px;
+  border-radius: 15px;
+  background: #f2eaea;
+  color: #806c70;
+  font-size: 13px;
+}
+
+.small-button {
+  margin-top: 9px;
+  padding: 10px 12px;
+  border-radius: 11px;
+  background: #a96976;
+  color: #fff;
+  font-weight: 800;
+}
+
+.note {
+  margin-top: 10px;
+  padding: 15px;
+  border-radius: 14px;
+  background: #fffdf6;
+  font-family: Georgia, serif;
+}
+
+.quote {
+  margin: 22px auto 0;
+  max-width: 500px;
+  color: #765d63;
+  text-align: center;
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+
+.footer {
+  margin-top: 22px;
+  color: #a39295;
+  font-size: 11px;
+  text-align: center;
+}
+
+.modal {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 10px;
+  background: rgba(40,30,35,0.55);
+}
+
+.modal.show {
+  display: flex;
+}
+
+.sheet {
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 20px;
+  border-radius: 24px 24px 15px 15px;
+  background: #fffaf8;
+}
+
+.sheet h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.hint {
+  margin: 0 0 14px;
+  color: #907f83;
+  font-size: 13px;
+}
+
+label {
+  display: block;
+  margin: 12px 0 6px;
+  color: #77696d;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+textarea,
+.sheet input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #eadbdd;
+  border-radius: 13px;
+  outline: none;
+  background: #fff;
+  color: #332b2d;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.moods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.mood {
+  padding: 9px 11px;
+  border-radius: 99px;
+  background: #f3e9e9;
+  color: #6f5a5f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.mood.active {
+  background: #a96976;
+  color: #fff;
+}
+
+.sheet-actions {
+  display: flex;
+  gap: 9px;
+  margin-top: 17px;
+}
+
+.sheet-actions button {
+  flex: 1;
+  padding: 13px;
+  border-radius: 14px;
+  font-weight: 800;
+}
+
+.cancel {
+  background: #eee6e6;
+  color: #332b2d;
+}
+
+.save {
+  background: #a96976;
+  color: #fff;
+}
+
+.danger {
+  width: 100%;
+  margin-top: 9px;
+  padding: 12px;
+  border-radius: 13px;
+  background: #fff0f1;
+  color: #9b505b;
+  font-weight: 800;
+}
+
+.game-question {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 15px;
+  background: #f5eeee;
+  font-weight: 800;
+}
+
+.answers {
+  display: grid;
+  gap: 8px;
+  margin-top: 9px;
+}
+
+.answer {
+  padding: 11px;
+  border-radius: 12px;
+  background: #fff;
+  text-align: left;
+}
+
+@media (max-width: 390px) {
+  .app {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+  h1 {
+    font-size: 29px;
+  }
+
+  .jar {
+    width: 205px;
+    height: 260px;
+  }
+
+  .jar-area {
+    height: 345px;
+  }
+}
 </style>
 </head>
+
 <body>
 <div class="app">
-  <div class="top"><div class="brand">ð« Our Mood Bottle</div><button class="gear" onclick="openSettings()">âï¸</button></div>
+
+  <div class="top">
+    <div class="brand">🫙 Our Mood Bottle</div>
+    <button class="icon-button" onclick="openSettings()">⚙️</button>
+  </div>
+
   <section class="hero">
-    <div class="eyebrow">CHIáº¾C Lá» Cá»¦A CHÃNG MÃNH</div>
-    <h1>Nhá»¯ng Äiá»u mÃ¬nh khÃ´ng muá»n quÃªn</h1>
-    <p class="subtitle">Má»i láº§n má»t ngÆ°á»i buá»n, má»t máº©u giáº¥y ÄÆ°á»£c bá» vÃ o lá». Hai ngÆ°á»i nhÃ¬n tháº¥y chiáº¿c lá» Äáº§y Äáº¿n ÄÃ¢u â nhÆ°ng cáº£m xÃºc riÃªng tÆ° váº«n lÃ  cá»§a riÃªng má»i ngÆ°á»i.</p>
+    <div class="eyebrow">CHIẾC LỌ CỦA CHÚNG MÌNH</div>
+    <h1>Những điều mình không muốn quên</h1>
+    <p class="subtitle">
+      Mỗi lần một người buồn, một mẩu giấy được bỏ vào lọ.
+      Hai người nhìn thấy chiếc lọ đầy đến đâu, nhưng không tự ý đọc của nhau.
+    </p>
   </section>
 
-  <div class="jar-stage">
-    <div class="glow"></div><div class="jar"><div class="neck"></div><div class="paper-fill" id="paperFill"></div><div class="paper-stack" id="paperStack"></div><div class="jar-shine"></div></div>
-  </div>
-  <div class="fill-label" id="fillLabel">Chiáº¿c lá» cÃ²n trá»ng</div>
-  <div class="fill-sub" id="fillSub">0 máº©u giáº¥y</div>
-
-  <div class="cta"><button class="primary" onclick="openAdd()">ï¼ Bá» má»t máº©u giáº¥y vÃ o lá»</button><button class="secondary" onclick="openSettings()">âï¸</button></div>
-
-  <div class="card">
-    <div class="card-title"><h2>ð«¶ Hai ngÆ°á»i Â· má»t chiáº¿c lá»</h2><span class="tiny" id="roomCode">PhÃ²ng riÃªng</span></div>
-    <div class="people">
-      <div class="person"><div class="avatar">ð·</div><b id="meName">NgÆ°á»i 1</b><span class="tiny" id="meCount">0 máº©u</span><div class="bar"><i id="meBar"></i></div></div>
-      <div class="person"><div class="avatar">ð</div><b id="partnerName">NgÆ°á»i 2</b><span class="tiny" id="partnerCount">0 máº©u</span><div class="bar"><i id="partnerBar"></i></div></div>
+  <div class="jar-area">
+    <div class="jar">
+      <div class="jar-neck"></div>
+      <div class="jar-fill" id="jarFill"></div>
+      <div class="jar-papers" id="jarPapers"></div>
+      <div class="jar-shine"></div>
     </div>
-    <div class="status" id="status" style="margin-top:12px">ChÆ°a cÃ³ gÃ¬ trong lá». ÄÃ¢y lÃ  nÆ¡i hai ngÆ°á»i cÃ³ thá» nhÃ¬n tháº¥y tiáº¿n Äá», nhÆ°ng khÃ´ng tá»± Ã½ Äá»c nhá»¯ng Äiá»u riÃªng tÆ° cá»§a nhau.</div>
-    <div class="full" id="fullMessage">ð« <strong>Chiáº¿c lá» ÄÃ£ Äáº§y.</strong><br>Äáº§y khÃ´ng cÃ³ nghÄ©a lÃ  pháº£i chá»u thÃªm. ÄÃ¢y lÃ  má»t tÃ­n hiá»u Äá» hai ngÆ°á»i dá»«ng láº¡i, nÃ³i chuyá»n hoáº·c chá»n Äiá»u tá»t nháº¥t cho mÃ¬nh.</div>
+  </div>
+
+  <div class="fill-label" id="fillLabel">Chiếc lọ còn trống</div>
+  <div class="fill-sub" id="fillSub">0 mẩu giấy</div>
+
+  <div class="actions">
+    <button class="primary" onclick="openAdd()">＋ Bỏ một mẩu giấy vào lọ</button>
   </div>
 
   <div class="card">
-    <div class="card-title"><h2>ð Máº©u giáº¥y cá»§a mÃ¬nh</h2><span class="tiny" id="total">0 máº©u</span></div>
-    <input id="search" placeholder="TÃ¬m láº¡i má»t chuyá»n..." oninput="renderEntries()">
+    <div class="card-title">
+      <h2>🫶 Hai người · một chiếc lọ</h2>
+      <span class="tiny" id="roomLabel">Phòng riêng</span>
+    </div>
+
+    <div class="people">
+      <div class="person">
+        <div class="avatar">🌷</div>
+        <div class="person-name" id="myNameLabel">Người 1</div>
+        <div class="tiny" id="myCount">0 mẩu</div>
+        <div class="bar"><span id="myBar"></span></div>
+      </div>
+
+      <div class="person">
+        <div class="avatar">🌙</div>
+        <div class="person-name" id="otherNameLabel">Người 2</div>
+        <div class="tiny" id="otherCount">0 mẩu</div>
+        <div class="bar"><span id="otherBar"></span></div>
+      </div>
+    </div>
+
+    <div class="status" id="status">
+      Chưa có gì trong lọ.
+    </div>
+
+    <div class="full" id="fullMessage">
+      🫙 Chiếc lọ đã đầy. Đây là lúc hai người nên dừng lại và nhìn thật kỹ vào cảm xúc của mình.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <h2>💌 Mẩu giấy của mình</h2>
+      <span class="tiny" id="total">0 mẩu</span>
+    </div>
+
+    <input class="search" id="search" placeholder="Tìm lại một chuyện..." oninput="renderEntries()">
     <div id="entries"></div>
   </div>
 
   <div class="card">
-    <div class="card-title"><h2>ð Máº©u giáº¥y cá»§a ngÆ°á»i kia</h2><span class="tiny">RiÃªng tÆ°</span></div>
-    <div class="locked">
-      Ná»i dung cá»§a ngÆ°á»i kia ÄÆ°á»£c che láº¡i. Muá»n Äá»c má»t máº©u, ngÆ°á»i kia cÃ³ thá» cho phÃ©p hoáº·c báº¡n cÃ³ thá» má» khÃ³a báº±ng má»t mini-game.
-      <br><button onclick="startGame()">ð® ChÆ¡i mini-game Äá» má» 1 máº©u</button>
+    <div class="card-title">
+      <h2>🔐 Mẩu giấy của người kia</h2>
+      <span class="tiny">Riêng tư</span>
     </div>
+
+    <div class="locked">
+      Nội dung của người kia được che lại.
+      Chỉ có thể đọc khi người kia cho phép hoặc khi mini-game được mở.
+      <br>
+      <button class="small-button" onclick="startGame()">🎮 Chơi mini-game</button>
+    </div>
+
     <div id="openedNote"></div>
   </div>
 
-  <div class="quote">âKhÃ´ng ghi láº¡i Äá» tráº£ thÃ¹. Ghi láº¡i Äá» khÃ´ng quÃªn cáº£m xÃºc cá»§a mÃ¬nh.â</div>
-  <div class="footer">Our Mood Bottle Â· Máº©u giáº¥y riÃªng tÆ° Â· ð«</div>
+  <div class="quote">
+    “Không ghi lại để trả thù. Ghi lại để không quên cảm xúc của mình.”
+  </div>
+
+  <div class="footer">
+    Our Mood Bottle · 🫙
+  </div>
 </div>
 
-<div class="modal" id="addModal"><div class="sheet">
-  <h2>ð Má»t máº©u giáº¥y má»i</h2><p class="hint">Viáº¿t Äiá»u em muá»n nhá». Máº©u giáº¥y nÃ y máº·c Äá»nh chá» mÃ¬nh em Äá»c ÄÆ°á»£c.</p>
-  <label>Äiá»u gÃ¬ ÄÃ£ xáº£y ra?</label><textarea id="reason" placeholder="VÃ­ dá»¥: HÃ´m nay mÃ¬nh buá»n vÃ¬..."></textarea>
-  <label>Cáº£m xÃºc</label><div class="moods">
-    <button class="mood active" data-m="Buá»n" onclick="pickMood(this)">ð¥º Buá»n</button><button class="mood" data-m="Tá»n thÆ°Æ¡ng" onclick="pickMood(this)">ð Tá»n thÆ°Æ¡ng</button><button class="mood" data-m="Tá»©c giáº­n" onclick="pickMood(this)">ð¤ Tá»©c giáº­n</button><button class="mood" data-m="Tháº¥t vá»ng" onclick="pickMood(this)">ð Tháº¥t vá»ng</button><button class="mood" data-m="CÃ´ ÄÆ¡n" onclick="pickMood(this)">ð¥ CÃ´ ÄÆ¡n</button><button class="mood" data-m="KhÃ¡c" onclick="pickMood(this)">ð¤ KhÃ¡c</button>
+
+<!-- ADD NOTE -->
+<div class="modal" id="addModal">
+  <div class="sheet">
+    <h2>📝 Một mẩu giấy mới</h2>
+    <p class="hint">Mẩu giấy này mặc định chỉ mình bạn đọc được.</p>
+
+    <label>Điều gì đã xảy ra?</label>
+    <textarea id="reason" placeholder="Hôm nay mình buồn vì..."></textarea>
+
+    <label>Cảm xúc</label>
+    <div class="moods">
+      <button class="mood active" data-mood="Buồn" onclick="pickMood(this)">🥺 Buồn</button>
+      <button class="mood" data-mood="Tổn thương" onclick="pickMood(this)">💔 Tổn thương</button>
+      <button class="mood" data-mood="Tức giận" onclick="pickMood(this)">😤 Tức giận</button>
+      <button class="mood" data-mood="Thất vọng" onclick="pickMood(this)">😞 Thất vọng</button>
+      <button class="mood" data-mood="Cô đơn" onclick="pickMood(this)">🥀 Cô đơn</button>
+      <button class="mood" data-mood="Khác" onclick="pickMood(this)">🤍 Khác</button>
+    </div>
+
+    <label>Ngày</label>
+    <input id="noteDate" type="date">
+
+    <div class="sheet-actions">
+      <button class="cancel" onclick="closeModal('addModal')">Hủy</button>
+      <button class="save" onclick="saveEntry()">Vo lại & bỏ vào lọ 🫙</button>
+    </div>
   </div>
-  <label>NgÃ y</label><input id="date" type="date">
-  <div class="sheet-actions"><button class="cancel" onclick="closeModal()">Há»§y</button><button class="save" onclick="saveEntry()">Vo láº¡i & bá» vÃ o lá» ð«</button></div>
-</div></div>
+</div>
 
-<div class="modal" id="settingsModal"><div class="sheet">
-  <h2>âï¸ CÃ i Äáº·t chiáº¿c lá»</h2><p class="hint">Thiáº¿t láº­p tÃªn hai ngÆ°á»i vÃ  mÃ£ phÃ²ng. Báº£n nÃ y váº«n lÆ°u cá»¥c bá» cho Äáº¿n khi káº¿t ná»i Firebase.</p>
-  <label>TÃªn cá»§a báº¡n</label><input id="myName" placeholder="VÃ­ dá»¥: Em">
-  <label>TÃªn ngÆ°á»i kia</label><input id="otherName" placeholder="VÃ­ dá»¥: Anh">
-  <label>MÃ£ phÃ²ng</label><input id="roomInput" placeholder="VÃ­ dá»¥: LOVE-2026">
-  <label>NgÆ°á»i kia cÃ³ thá» má» giáº¥y cá»§a báº¡n báº±ng mini-game?</label>
-  <button class="danger" id="gameToggle" onclick="toggleGame()">ð® Cho phÃ©p mini-game: Báº­t</button>
-  <button class="danger" onclick="clearMine()">ðï¸ XÃ³a cÃ¡c máº©u giáº¥y cá»§a mÃ¬nh</button>
-  <div class="sheet-actions"><button class="cancel" onclick="closeSettings()">ÄÃ³ng</button><button class="save" onclick="saveSettings()">LÆ°u thay Äá»i</button></div>
-</div></div>
 
-<div class="modal" id="gameModal"><div class="sheet">
-  <h2>ð® Má» má»t máº©u giáº¥y</h2><p class="hint">Tráº£ lá»i ÄÃºng Äá» má» 1 máº©u giáº¥y cá»§a ngÆ°á»i kia.</p>
-  <div class="game"><div class="game-q" id="gameQ"></div><div class="answers" id="answers"></div></div>
-  <div class="sheet-actions"><button class="cancel" onclick="closeGame()">ÄÃ³ng</button></div>
-</div></div>
+<!-- SETTINGS -->
+<div class="modal" id="settingsModal">
+  <div class="sheet">
+    <h2>⚙️ Cài đặt</h2>
+    <p class="hint">Tên và mã phòng sẽ được dùng khi kết nối Firebase sau.</p>
+
+    <label>Tên của bạn</label>
+    <input id="myNameInput" placeholder="Ví dụ: Em">
+
+    <label>Tên người kia</label>
+    <input id="otherNameInput" placeholder="Ví dụ: Anh">
+
+    <label>Mã phòng</label>
+    <input id="roomInput" placeholder="Ví dụ: LOVE-2026">
+
+    <button class="danger" onclick="clearMine()">🗑️ Xóa mẩu giấy của mình</button>
+
+    <div class="sheet-actions">
+      <button class="cancel" onclick="closeModal('settingsModal')">Đóng</button>
+      <button class="save" onclick="saveSettings()">Lưu thay đổi</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- GAME -->
+<div class="modal" id="gameModal">
+  <div class="sheet">
+    <h2>🎮 Mini-game</h2>
+    <p class="hint">Trả lời đúng để mở một mẩu giấy.</p>
+
+    <div class="game-question" id="gameQuestion"></div>
+    <div class="answers" id="answers"></div>
+
+    <div class="sheet-actions">
+      <button class="cancel" onclick="closeModal('gameModal')">Đóng</button>
+    </div>
+  </div>
+</div>
+
 
 <script>
-const KEY="our-mood-bottle-v2";
-const DEFAULT={me:"NgÆ°á»i 1",other:"NgÆ°á»i 2",room:"LOVE-2026",allowGame:true};
-let data=JSON.parse(localStorage.getItem(KEY)||"null")||{me:[],other:[{id:1,reason:"Máº©u giáº¥y cá»§a ngÆ°á»i kia Äang ÄÆ°á»£c báº£o vá» ð",mood:"RiÃªng tÆ°",date:new Date().toISOString().slice(0,10)}],settings:{...DEFAULT}};
-let selectedMood="Buá»n",gameEnabled=true;
-const $=id=>document.getElementById(id);
-$("date").valueAsDate=new Date();
+"use strict";
 
-function save(){localStorage.setItem(KEY,JSON.stringify(data))}
-function openAdd(){$("addModal").classList.add("show");$("reason").focus()}
-function closeModal(){$("addModal").classList.remove("show");$("reason").value=""}
-function pickMood(b){document.querySelectorAll(".mood").forEach(x=>x.classList.remove("active"));b.classList.add("active");selectedMood=b.dataset.m}
-function saveEntry(){
- const reason=$("reason").value.trim();
- if(!reason){alert("Viáº¿t má»t chÃºt vÃ o máº©u giáº¥y trÆ°á»c nha ð¥º");return}
- data.me.push({id:Date.now(),reason,date:$("date").value||new Date().toISOString().slice(0,10),mood:selectedMood,unlocked:false});
- save();closeModal();render();
+var STORAGE_KEY = "our-mood-bottle-clean-v1";
+
+var defaultData = {
+  me: [],
+  other: [],
+  settings: {
+    me: "Người 1",
+    other: "Người 2",
+    room: "LOVE-2026"
+  }
+};
+
+var data;
+
+try {
+  data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+} catch (error) {
+  data = null;
 }
-function openSettings(){
- $("myName").value=data.settings.me;$("otherName").value=data.settings.other;$("roomInput").value=data.settings.room;
- gameEnabled=data.settings.allowGame!==false;$("gameToggle").textContent="ð® Cho phÃ©p mini-game: "+(gameEnabled?"Báº­t":"Táº¯t");
- $("settingsModal").classList.add("show")
+
+if (!data || !data.me || !data.other || !data.settings) {
+  data = defaultData;
 }
-function closeSettings(){$("settingsModal").classList.remove("show")}
-function toggleGame(){gameEnabled=!gameEnabled;$("gameToggle").textContent="ð® Cho phÃ©p mini-game: "+(gameEnabled?"Báº­t":"Táº¯t")}
-function saveSettings(){
- data.settings.me=$("myName").value.trim()||"NgÆ°á»i 1";data.settings.other=$("otherName").value.trim()||"NgÆ°á»i 2";data.settings.room=$("roomInput").value.trim()||"LOVE-2026";data.settings.allowGame=gameEnabled;save();closeSettings();render()
+
+var selectedMood = "Buồn";
+
+document.getElementById("noteDate").value =
+  new Date().toISOString().slice(0, 10);
+
+
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
-function clearMine(){if(confirm("XÃ³a toÃ n bá» máº©u giáº¥y cá»§a báº¡n?")){data.me=[];save();render();closeSettings()}}
-function render(){
- const n=data.me.length, otherCount=Math.max(0,data.other.length-1), total=n+otherCount, CAP=Math.max(1,Math.max(n,otherCount,10)), pct=Math.min(100,total/(CAP*2)*100);
- $("paperFill").style.height=pct+"%";$("fillSub").textContent=total+" máº©u giáº¥y trong lá»";
- $("fillLabel").textContent=pct===0?"Chiáº¿c lá» cÃ²n trá»ng":pct>=100?"Chiáº¿c lá» ÄÃ£ Äáº§y":pct<35?"Lá» má»i báº¯t Äáº§u Äáº§y lÃªn":pct<70?"Chiáº¿c lá» Äang Äáº§y dáº§n":"Chiáº¿c lá» gáº§n Äáº§y rá»i";
- $("meName").textContent=data.settings.me;$("partnerName").textContent=data.settings.other;
- $("meCount").textContent=n+" máº©u";$("partnerCount").textContent+="" ;
- $("partnerCount").textContent=otherCount+" máº©u";$("roomCode").textContent=data.settings.room;
- $("meBar").style.width=Math.min(100,n/CAP*100)+"%";$("partnerBar").style.width=Math.min(100,otherCount/CAP*100)+"%";
- $("status").innerHTML=total?`Chiáº¿c lá» Äang giá»¯ <strong>${total} máº©u giáº¥y</strong>. Báº¡n tháº¥y tiáº¿n Äá» cá»§a nhau, cÃ²n ná»i dung váº«n ÄÆ°á»£c giá»¯ riÃªng.`:"ChÆ°a cÃ³ gÃ¬ trong lá». ÄÃ¢y lÃ  nÆ¡i hai ngÆ°á»i cÃ³ thá» nhÃ¬n tháº¥y tiáº¿n Äá», nhÆ°ng khÃ´ng tá»± Ã½ Äá»c nhá»¯ng Äiá»u riÃªng tÆ° cá»§a nhau.";
- $("fullMessage").classList.toggle("show",pct>=100);$("total").textContent=n+" máº©u";renderJar();renderEntries()
+
+
+function openAdd() {
+  document.getElementById("addModal").classList.add("show");
+  setTimeout(function () {
+    document.getElementById("reason").focus();
+  }, 100);
 }
-function renderJar(){
- const stack=$("paperStack");stack.innerHTML="";const count=Math.min(60,data.me.length+Math.max(0,data.other.length-1));
- for(let i=0;i<count;i++){const p=document.createElement("div");p.className="note-mini";p.style.setProperty("--r",(Math.random()*34-17)+"deg");p.style.background=["#fffaf3","#f7e7d8","#f4dfe2","#fff3cf"][i%4];stack.appendChild(p)}
+
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
 }
-function renderEntries(){
- const q=$("search").value.toLowerCase(),arr=data.me.slice().reverse().filter(e=>!q||e.reason.toLowerCase().includes(q)||e.mood.toLowerCase().includes(q)),box=$("entries");
- if(!arr.length){box.innerHTML='<div class="empty">ChÆ°a cÃ³ máº©u giáº¥y nÃ o.<br>Chiáº¿c lá» váº«n á» ÄÃ¢y. ð«</div>';return}
- box.innerHTML=arr.map(e=>`<div class="entry"><div class="entry-head"><strong>${emoji(e.mood)} ${esc(e.mood)}</strong><small>${fmt(e.date)}</small></div><p>${esc(e.reason).replace(/\n/g,"<br>")}</p><span class="tag">chá» mÃ¬nh báº¡n Äá»c</span></div>`).join("")
+
+
+function pickMood(button) {
+  var buttons = document.querySelectorAll(".mood");
+
+  buttons.forEach(function (item) {
+    item.classList.remove("active");
+  });
+
+  button.classList.add("active");
+  selectedMood = button.getAttribute("data-mood");
 }
-function emoji(m){return {Buá»n:"ð¥º","Tá»n thÆ°Æ¡ng":"ð","Tá»©c giáº­n":"ð¤","Tháº¥t vá»ng":"ð","CÃ´ ÄÆ¡n":"ð¥",KhÃ¡c:"ð¤"}[m]||"ð"}
-function fmt(d){return new Date(d+"T00:00:00").toLocaleDateString("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric"})}
-function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function startGame(){
- if(!gameEnabled){alert("Mini-game Äang ÄÆ°á»£c táº¯t trong cÃ i Äáº·t.");return}
- const qs=[{q:"Äiá»u gÃ¬ quan trá»ng nháº¥t khi má» má»t máº©u giáº¥y riÃªng tÆ°?",a:["Äá»c cÃ ng nhiá»u cÃ ng tá»t","TÃ´n trá»ng quyá»n cá»§a ngÆ°á»i viáº¿t","Chá»¥p mÃ n hÃ¬nh gá»­i báº¡n"],c:1},
- {q:"Náº¿u ngÆ°á»i kia chÆ°a cho phÃ©p Äá»c thÃ¬ sao?",a:["Váº«n tÃ¬m cÃ¡ch Äá»c","TÃ´n trá»ng vÃ  chá» ÄÆ°á»£c cho phÃ©p","ÄoÃ¡n ná»i dung"],c:1},
- {q:"Chiáº¿c lá» Äáº§y nÃªn ÄÆ°á»£c hiá»u lÃ  gÃ¬?",a:["Má»t tÃ­n hiá»u Äá» dá»«ng láº¡i vÃ  nhÃ¬n láº¡i","Má»t thá»­ thÃ¡ch pháº£i chá»u thÃªm","KhÃ´ng cÃ³ Ã½ nghÄ©a"],c:0}];
- const x=qs[Math.floor(Math.random()*qs.length)];$("gameQ").textContent=x.q;$("answers").innerHTML=x.a.map((v,i)=>`<button onclick="answer(${i},${x.c})">${v}</button>`).join("");$("gameModal").classList.add("show")
+
+
+function saveEntry() {
+  var text = document.getElementById("reason").value.trim();
+
+  if (!text) {
+    alert("Viết một chút vào mẩu giấy trước nha 🥺");
+    return;
+  }
+
+  data.me.push({
+    id: Date.now(),
+    text: text,
+    mood: selectedMood,
+    date: document.getElementById("noteDate").value
+  });
+
+  saveData();
+
+  document.getElementById("reason").value = "";
+  closeModal("addModal");
+
+  render();
 }
-function answer(i,c){
- const btns=[...document.querySelectorAll("#answers button")];btns.forEach(b=>b.disabled=true);
- if(i===c){btns[i].classList.add("correct");setTimeout(()=>{closeGame();unlockOne()},450)}else{btns[i].classList.add("wrong");alert("ChÆ°a ÄÃºng rá»i ð¥º Thá»­ láº¡i láº§n sau nha.");setTimeout(()=>btns.forEach(b=>b.disabled=false),300)}
+
+
+function openSettings() {
+  document.getElementById("myNameInput").value = data.settings.me;
+  document.getElementById("otherNameInput").value = data.settings.other;
+  document.getElementById("roomInput").value = data.settings.room;
+
+  document.getElementById("settingsModal").classList.add("show");
 }
-function closeGame(){$("gameModal").classList.remove("show")}
-function unlockOne(){
- const candidates=data.other.filter(x=>!x.unlocked&&x.id!==1);
- if(!candidates.length){$("openedNote").innerHTML='<div class="mini-note">KhÃ´ng cÃ²n máº©u giáº¥y nÃ o Äang chá» má».</div>';return}
- const note=candidates[0];note.unlocked=true;save();$("openedNote").innerHTML=`<div class="mini-note">ð <strong>Má»t máº©u giáº¥y ÄÆ°á»£c má»:</strong><br><br>${esc(note.reason).replace(/\n/g,"<br>")}<br><br><span class="tiny">${fmt(note.date)}</span></div>`
+
+
+function saveSettings() {
+  data.settings.me =
+    document.getElementById("myNameInput").value.trim() || "Người 1";
+
+  data.settings.other =
+    document.getElementById("otherNameInput").value.trim() || "Người 2";
+
+  data.settings.room =
+    document.getElementById("roomInput").value.trim() || "LOVE-2026";
+
+  saveData();
+  closeModal("settingsModal");
+  render();
 }
+
+
+function clearMine() {
+  if (!confirm("Xóa toàn bộ mẩu giấy của bạn?")) {
+    return;
+  }
+
+  data.me = [];
+  saveData();
+  closeModal("settingsModal");
+  render();
+}
+
+
+function render() {
+  var mine = data.me.length;
+  var other = data.other.length;
+  var total = mine + other;
+
+  /*
+    Chiếc lọ không có giới hạn cố định.
+    Khi có nhiều mẩu hơn, mức đầy sẽ tiến dần tới 100%.
+  */
+  var visualCapacity = Math.max(10, total);
+  var percent = Math.min(100, (total / visualCapacity) * 55);
+
+  if (total >= 20) {
+    percent = Math.min(100, 55 + ((total - 20) / 20) * 45);
+  }
+
+  document.getElementById("jarFill").style.height = percent + "%";
+
+  if (total === 0) {
+    document.getElementById("fillLabel").textContent =
+      "Chiếc lọ còn trống";
+  } else if (percent >= 100) {
+    document.getElementById("fillLabel").textContent =
+      "Chiếc lọ đã đầy";
+  } else if (percent >= 75) {
+    document.getElementById("fillLabel").textContent =
+      "Chiếc lọ gần đầy rồi";
+  } else if (percent >= 45) {
+    document.getElementById("fillLabel").textContent =
+      "Chiếc lọ đang đầy dần";
+  } else {
+    document.getElementById("fillLabel").textContent =
+      "Lọ mới bắt đầu đầy lên";
+  }
+
+  document.getElementById("fillSub").textContent =
+    total + " mẩu giấy";
+
+  document.getElementById("myNameLabel").textContent =
+    data.settings.me;
+
+  document.getElementById("otherNameLabel").textContent =
+    data.settings.other;
+
+  document.getElementById("myCount").textContent =
+    mine + " mẩu";
+
+  document.getElementById("otherCount").textContent =
+    other + " mẩu";
+
+  document.getElementById("roomLabel").textContent =
+    data.settings.room;
+
+  var myPercent = Math.min(100, mine * 10);
+  var otherPercent = Math.min(100, other * 10);
+
+  document.getElementById("myBar").style.width =
+    myPercent + "%";
+
+  document.getElementById("otherBar").style.width =
+    otherPercent + "%";
+
+  document.getElementById("status").innerHTML =
+    total === 0
+      ? "Chưa có gì trong lọ. Đây là nơi hai người có thể nhìn thấy tiến độ."
+      : "Chiếc lọ đang giữ <strong>" +
+        total +
+        " mẩu giấy</strong>. Hai người nhìn thấy tiến độ, còn nội dung riêng tư vẫn được bảo vệ.";
+
+  document.getElementById("fullMessage").classList.toggle(
+    "show",
+    percent >= 100
+  );
+
+  document.getElementById("total").textContent =
+    mine + " mẩu";
+
+  renderJar();
+  renderEntries();
+}
+
+
+function renderJar() {
+  var box = document.getElementById("jarPapers");
+  box.innerHTML = "";
+
+  var total = data.me.length + data.other.length;
+  var visible = Math.min(total, 60);
+
+  for (var i = 0; i < visible; i++) {
+    var paper = document.createElement("div");
+    paper.className = "paper";
+    paper.style.transform =
+      "rotate(" + ((i * 17) % 30 - 15) + "deg)";
+
+    if (i % 4 === 1) {
+      paper.style.background = "#f7e7d8";
+    }
+
+    if (i % 4 === 2) {
+      paper.style.background = "#f4dfe2";
+    }
+
+    if (i % 4 === 3) {
+      paper.style.background = "#fff3cf";
+    }
+
+    box.appendChild(paper);
+  }
+}
+
+
+function renderEntries() {
+  var query =
+    document.getElementById("search").value
+      .trim()
+      .toLowerCase();
+
+  var entries = data.me
+    .slice()
+    .reverse()
+    .filter(function (entry) {
+      return (
+        !query ||
+        entry.text.toLowerCase().indexOf(query) !== -1 ||
+        entry.mood.toLowerCase().indexOf(query) !== -1
+      );
+    });
+
+  var box = document.getElementById("entries");
+
+  if (!entries.length) {
+    box.innerHTML =
+      '<div class="tiny" style="padding:20px 4px;text-align:center;">Chưa có mẩu giấy nào. 🫙</div>';
+    return;
+  }
+
+  box.innerHTML = entries
+    .map(function (entry) {
+      return (
+        '<div class="entry">' +
+          '<div class="entry-head">' +
+            "<strong>" +
+              moodEmoji(entry.mood) +
+              " " +
+              escapeHtml(entry.mood) +
+            "</strong>" +
+            "<small>" +
+              formatDate(entry.date) +
+            "</small>" +
+          "</div>" +
+          "<p>" +
+            escapeHtml(entry.text).replace(/\n/g, "<br>") +
+          "</p>" +
+        "</div>"
+      );
+    })
+    .join("");
+}
+
+
+function moodEmoji(mood) {
+  var icons = {
+    "Buồn": "🥺",
+    "Tổn thương": "💔",
+    "Tức giận": "😤",
+    "Thất vọng": "😞",
+    "Cô đơn": "🥀",
+    "Khác": "🤍"
+  };
+
+  return icons[mood] || "📝";
+}
+
+
+function formatDate(date) {
+  if (!date) {
+    return "";
+  }
+
+  return new Date(date + "T00:00:00")
+    .toLocaleDateString("vi-VN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    });
+}
+
+
+function escapeHtml(text) {
+  return String(text).replace(
+    /[&<>"']/g,
+    function (character) {
+      var map = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      };
+
+      return map[character];
+    }
+  );
+}
+
+
+function startGame() {
+  var questions = [
+    {
+      question: "Điều quan trọng nhất khi đọc mẩu giấy riêng tư?",
+      answers: [
+        "Đọc càng nhiều càng tốt",
+        "Tôn trọng quyền của người viết",
+        "Chụp lại để lưu"
+      ],
+      correct: 1
+    },
+    {
+      question: "Nếu người kia chưa cho phép thì sao?",
+      answers: [
+        "Tìm cách đọc",
+        "Tôn trọng và chờ được cho phép",
+        "Đoán nội dung"
+      ],
+      correct: 1
+    },
+    {
+      question: "Chiếc lọ đầy nên được hiểu là gì?",
+      answers: [
+        "Một tín hiệu để hai người nhìn lại",
+        "Phải chịu thêm",
+        "Không có ý nghĩa"
+      ],
+      correct: 0
+    }
+  ];
+
+  var question =
+    questions[Math.floor(Math.random() * questions.length)];
+
+  document.getElementById("gameQuestion").textContent =
+    question.question;
+
+  document.getElementById("answers").innerHTML =
+    question.answers
+      .map(function (answer, index) {
+        return (
+          '<button class="answer" onclick="answerGame(' +
+          index +
+          "," +
+          question.correct +
+          ')">' +
+          escapeHtml(answer) +
+          "</button>"
+        );
+      })
+      .join("");
+
+  document.getElementById("gameModal").classList.add("show");
+}
+
+
+function answerGame(selected, correct) {
+  var buttons =
+    document.querySelectorAll(".answer");
+
+  if (selected === correct) {
+    buttons[selected].style.background = "#e4f0e4";
+
+    setTimeout(function () {
+      closeModal("gameModal");
+      openOtherNote();
+    }, 400);
+
+  } else {
+    buttons[selected].style.background = "#f4d7d9";
+
+    alert("Chưa đúng rồi 🥺 Thử lại nha.");
+  }
+}
+
+
+function openOtherNote() {
+  if (!data.other.length) {
+    document.getElementById("openedNote").innerHTML =
+      '<div class="note">Người kia chưa có mẩu giấy nào để mở.</div>';
+    return;
+  }
+
+  var note = data.other[0];
+
+  document.getElementById("openedNote").innerHTML =
+    '<div class="note">' +
+      "💌 <strong>Một mẩu giấy được mở:</strong><br><br>" +
+      escapeHtml(note.text).replace(/\n/g, "<br>") +
+      "<br><br>" +
+      '<span class="tiny">' +
+        formatDate(note.date) +
+      "</span>" +
+    "</div>";
+}
+
+
 render();
 </script>
 </body>
