@@ -704,10 +704,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import {
   getAuth,
-  signInWithEmailAndPassword,
+  signInAnonymously,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-
 /* =========================
    FIREBASE
 ========================= */
@@ -1581,7 +1580,14 @@ if (noteDate) {
 /* =========================
    AUTH
 ========================= */
-
+signInAnonymously(auth)
+  .then(function () {
+    console.log("Đăng nhập Firebase thành công");
+  })
+  .catch(function (error) {
+    console.error("Lỗi đăng nhập Firebase:", error);
+    alert("Không đăng nhập được Firebase: " + error.message);
+  });
 onAuthStateChanged(
   auth,
   async function (user) {
